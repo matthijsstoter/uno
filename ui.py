@@ -24,7 +24,7 @@ class UI(Protocol):
     def top_card(self, pile: Pile) -> Card:
         ...
 
-    def display_rules(self) -> None:
+    def display_rules(self, msg) -> None:
         ...
 
     def cpu_pick_card(self, hand: Hand) -> int:
@@ -32,3 +32,9 @@ class UI(Protocol):
 
     def display_winner(self, winner_name: str) -> None:
         ...
+    
+    def display_battle_count(self, count: int) -> None:
+        ...
+    
+    def display_start(self, msg: str) -> None:
+        print(msg)

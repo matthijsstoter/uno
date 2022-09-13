@@ -58,12 +58,20 @@ class Game:
 
     def start(self) -> None:
         """Start the game"""
-        print(f"Handing out cards to {len(self.players)} players.\n")
+        msg = f"Handing out cards to {len(self.players)} players.\n"\
+            f"Drawing the first card, is everybody ready?\n"
+        self.ui.display_start(msg)
+
         self.hand_out_cards()
 
-        self.ui.display_rules()
+        msg =f"########################"\
+        f"\n \n"\
+        f"Please don't cheat"\
+        f"To draw a card, pick -1"\
+        f"\n \n"\
+        f"########################"
 
-        print(f"Drawing the first card, is everybody ready?\n")
+        self.ui.display_rules(msg)
         self.pile.add(self.deck.draw())
         self.check_first_card()
         self._current_color = self.pile.current_card.color
@@ -75,7 +83,6 @@ class Game:
 
     def do_turn(self) -> None:
         
-        print("Checking for winner")
         self.check_winner()
         self.check_deck()
 
@@ -93,6 +100,11 @@ class Game:
         valid_option = self.rules.check_any_valid_card(player.hand.cards, pile_card, current_color=self._current_color)
         # print(f"\n \n \n Can {player.name} play a card? {check_any_valid_card(player.hand.cards, pile_card, wild_color=None)} \n \n \n")
 
+        self.read_player_input(player=player)
+        
+    def read_player_input(self, player: Player) -> None:
+        pile_card = self.pile.current_card
+        
         i = self.ui.player_pick_card(player.name, player.hand)
 
         if i >= 0:
@@ -155,7 +167,8 @@ class Game:
 
         if self._battle:
             self._battle_count += 1
-            print(f"BATTLE COUNT {self._battle_count}")
+            self.ui.display_battle_count(self._battle_count)
+
         else:
             self._battle_count = 0
 
@@ -163,12 +176,16 @@ class Game:
 
         print(self.pile.current_card.is_active)
 
+        self.check_color_change_required()
+
+        # else:
+        #     self._current_color = self.current_color
+    
+    def check_color_change_required(self) -> None:
         if not self.check_color_status() and self.pile.current_card.is_active and not self._battle:
             self._current_color = self._read_color()
             self.pile.current_card.deactivate()
             self._color_status = True
-        # else:
-        #     self._current_color = self.current_color
     
     def check_color_status(self) -> bool:
         if (self.pile.current_card.color is not None and self._current_color is not None):

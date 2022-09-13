@@ -43,8 +43,3 @@ class Pile:
 
     def __len__(self) -> int:
         return len(self.cards)
-
-
-x = [1,2,3,4,5]
-
-print(x[:-1])

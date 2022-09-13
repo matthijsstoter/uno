@@ -62,21 +62,18 @@ class CLI:
     def top_card(self, pile: Pile) -> Card:
         return pile.current_card
 
-    def display_rules(self) -> None:
-        print("########################")
-        print("\n \n")
-
-        print("Please don't cheat")
-        print("To draw a card, pick -1")
-        print("\n \n")
-
-        print("########################")
-
+    def display_rules(self, msg) -> None:
+        print(msg)
     
     def cpu_pick_card(self, hand: Hand) -> int:
         n_cards = len(hand)
         return random.randint(0, n_cards-1)
 
-
     def display_winner(self, winner_name: str) -> None:
-        print(f"{winner_name} won the game! :)")
+        print(f"{winner_name} won the game! :).")
+    
+    def display_battle_count(self, count: int) -> None:
+        print(f"BATTLE COUNT {count}")
+    
+    def display_start(self, msg) -> None:
+        print(msg)
