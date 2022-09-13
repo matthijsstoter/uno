@@ -62,46 +62,21 @@ class Card:
     @property
     def is_inactive(self) -> bool:
         return self.active == False
-    
-
-
-
-
-
-
-
-
-
-# color_cards = product(Colors, range(0,10))
-# color_cards = [c for c in color_cards] * 2
-# [print(color_card) for color_card in color_cards]
-
-
-
 
 
 def create_cards() -> list[Card]:
     CARDS: list[Card] = []
-
-    normal_colors = [color for color in Colors if color.name != "BLACK"]
-
-    # COLORS = {"no_action: ": _no_action_colors, "action": _action_colors}
-
-    # card_params = {Actions.SKIP: {"color": "no_action", "range_index": {"Lower": 0, "Upper": 2}},
-    #                 Actions.WILD: {"color": "no_action", }}
-
-
     
-    number_cards = [Card(type=Type.NORMAL, color=color, value=i) for color in normal_colors for i in range(0,10) for _ in range(2)]
-    skip_cards = [Card(type=Type.NORMAL, color=color, action=Actions.SKIP) for color in normal_colors for _ in range(2)]
-    draw2_cards = [Card(type=Type.BATTLE, color=color, action=Actions.DRAW2) for color in normal_colors for _ in range(2)]
+    number_cards = [Card(type=Type.NORMAL, color=color, value=i) for color in Colors for i in range(0,10) for _ in range(2)]
+    skip_cards = [Card(type=Type.NORMAL, color=color, action=Actions.SKIP) for color in Colors for _ in range(2)]
+    draw2_cards = [Card(type=Type.BATTLE, color=color, action=Actions.DRAW2) for color in Colors for _ in range(2)]
     draw4_cards = [Card(type=Type.BATTLE, action=Actions.DRAW4) for _ in range(4)]
-    reverse_cards = [Card(type=Type.NORMAL, color=color, action=Actions.REVERSE,) for color in normal_colors for _ in range(2)]
-    wild_cards = [Card(type=Type.NORMAL, action=Actions.WILD) for _ in range(20)]
+    reverse_cards = [Card(type=Type.NORMAL, color=color, action=Actions.REVERSE,) for color in Colors for _ in range(2)]
+    wild_cards = [Card(type=Type.NORMAL, action=Actions.WILD) for _ in range(4)]
     CARDS.extend(number_cards)
-    # CARDS.extend(skip_cards)
-    # CARDS.extend(draw2_cards)
+    CARDS.extend(skip_cards)
+    CARDS.extend(draw2_cards)
     CARDS.extend(draw4_cards)
-    # CARDS.extend(reverse_cards)
+    CARDS.extend(reverse_cards)
     CARDS.extend(wild_cards)
     return CARDS

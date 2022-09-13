@@ -58,20 +58,20 @@ class Game:
 
     def start(self) -> None:
         """Start the game"""
-        msg = f"Handing out cards to {len(self.players)} players.\n"\
+        start_msg = f"Handing out cards to {len(self.players)} players.\n"\
             f"Drawing the first card, is everybody ready?\n"
-        self.ui.display_start(msg)
+        self.ui.display_start(msg=start_msg)
 
         self.hand_out_cards()
 
-        msg =f"########################"\
+        rules_msg =f"########################"\
         f"\n \n"\
         f"Please don't cheat"\
         f"To draw a card, pick -1"\
         f"\n \n"\
         f"########################"
 
-        self.ui.display_rules(msg)
+        self.ui.display_rules(msg=rules_msg)
         self.pile.add(self.deck.draw())
         self.check_first_card()
         self._current_color = self.pile.current_card.color
@@ -97,8 +97,7 @@ class Game:
         
         self.ui.display_current_card(pile_card, current_color=self._current_color)
 
-        valid_option = self.rules.check_any_valid_card(player.hand.cards, pile_card, current_color=self._current_color)
-        # print(f"\n \n \n Can {player.name} play a card? {check_any_valid_card(player.hand.cards, pile_card, wild_color=None)} \n \n \n")
+        self.ui.display_valid_option(self.rules.check_any_valid_card(player.hand.cards, pile_card, current_color=self._current_color))
 
         self.read_player_input(player=player)
         
@@ -138,24 +137,25 @@ class Game:
             else:
                 self.do_turn_shell()
         
-            # os.system("clear")
+            os.system("clear")
 
         
         elif i == -1:
-            # os.system("clear")
+            os.system("clear")
             if self.check_battle() and self._battle:
                 if pile_card.action is Actions.DRAW4:
-                    print(self._buy_x_cards(player_name=player.name, number=4, n_cards=self._battle_count))
+                    msg = self._buy_x_cards(player_name=player.name, number=4, n_cards=self._battle_count)
+                    self.ui.buying_cards(msg)
                     for _ in range(self._battle_count):
                         player.hand.draw_a_card(self.deck.draw(), 4)
                 
                 elif pile_card.action is Actions.DRAW2:
-                    print(self._buy_x_cards(player_name=player.name, number=2, n_cards=self._battle_count))
+                    msg = self._buy_x_cards(player_name=player.name, number=2, n_cards=self._battle_count)
+                    self.ui.buying_cards(msg)
                     for _ in range(self._battle_count):
                         player.hand.draw_a_card(self.deck.draw(), 2)
                 
                 self._battle = False
-                self.pile.current_card.deactivate()
             
             else:
                 player.hand.draw_a_card(self.deck.draw())
@@ -173,13 +173,7 @@ class Game:
             self._battle_count = 0
 
         self.check_skip()
-
-        print(self.pile.current_card.is_active)
-
         self.check_color_change_required()
-
-        # else:
-        #     self._current_color = self.current_color
     
     def check_color_change_required(self) -> None:
         if not self.check_color_status() and self.pile.current_card.is_active and not self._battle:

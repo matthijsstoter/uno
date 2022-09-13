@@ -24,7 +24,7 @@ class UI(Protocol):
     def top_card(self, pile: Pile) -> Card:
         ...
 
-    def display_rules(self, msg) -> None:
+    def display_rules(self, msg: str) -> None:
         ...
 
     def cpu_pick_card(self, hand: Hand) -> int:
@@ -37,4 +37,10 @@ class UI(Protocol):
         ...
     
     def display_start(self, msg: str) -> None:
-        print(msg)
+        ...
+
+    def display_valid_option(self, bo: bool) -> None:
+        ...
+    
+    def buying_cards(self, msg: str) -> None:
+        ...

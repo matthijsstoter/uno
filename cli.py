@@ -77,3 +77,12 @@ class CLI:
     
     def display_start(self, msg) -> None:
         print(msg)
+    
+    def display_valid_option(self, bo: bool) -> None:
+        if bo:
+            print("Player has a valid card to play! :D")
+        else:
+            print("Player has no valid card to play! =(")
+    
+    def buying_cards(self, msg: str) -> None:
+        print(msg)

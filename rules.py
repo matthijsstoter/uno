@@ -61,7 +61,7 @@ class Rules:
             # print("5")
             return True
         
-        elif (card.color and card.color == current_color and pile_card.action is Actions.WILD):
+        elif ((card.color and card.color == current_color) and (pile_card.action is Actions.WILD or pile_card.action is Actions.DRAW4)):
             return True
         
         elif (card.action is Actions.DRAW2 and pile_card.action is Actions.DRAW2):
